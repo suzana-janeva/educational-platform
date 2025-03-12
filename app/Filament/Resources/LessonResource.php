@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\LessonResource\Pages;
 use App\Filament\Resources\LessonResource\RelationManagers;
+use App\Models\Course;
 use App\Models\Lesson;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +13,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Get;
+use Filament\Forms\Components\Select;
 
 class LessonResource extends Resource
 {
@@ -23,7 +26,14 @@ class LessonResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('title')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('content')
+                    ->required()
+                    ->maxLength(255),
+                Select::make('course_id')
+                ->relationship('course', 'name')
             ]);
     }
 
@@ -31,7 +41,21 @@ class LessonResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('content')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('course.name')
+                    ->sortable()
+                    ->inverseRelationship('course'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

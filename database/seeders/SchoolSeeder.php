@@ -16,8 +16,8 @@ class SchoolSeeder extends Seeder
     public function run(): void
     {
         DB::table('schools')->insert([
-            'name' => Str::random(10),
-            'slug'=> Str::random(5),
+            'name' => "Math",
+            'slug'=> 'math',
             'domain'=>  Str::random(5),
             'logo' => null,
         ]);

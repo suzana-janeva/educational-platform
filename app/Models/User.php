@@ -50,7 +50,7 @@ class User extends Authenticatable implements HasTenants
     protected function casts(): array
     {
         return [
-            //'role' => UserRole::class,
+            'role' => UserRole::class,
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
